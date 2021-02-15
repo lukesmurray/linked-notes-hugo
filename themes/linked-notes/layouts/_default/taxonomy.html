@@ -1,0 +1,17 @@
+{{ define "main" }}
+<main>
+  <article>
+    <!-- orders content according to the "date" field in front matter -->
+    <ul>
+      {{ range .Data.Terms.Alphabetical }}
+      <li>
+        <a class="internal-link" href="{{ .Page.Permalink }}"
+          >{{ .Page.Title }}</a
+        >
+        {{ .Count }}
+      </li>
+      {{ end }}
+    </ul>
+  </article>
+</main>
+{{ end }}

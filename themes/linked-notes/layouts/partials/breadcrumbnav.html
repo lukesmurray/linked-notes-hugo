@@ -1,0 +1,11 @@
+{{ if .p1.Parent }}
+{{ partial "breadcrumbnav.html" (dict "p1" .p1.Parent "p2" .p2 )  }}
+{{ else if not .p1.IsHome }}
+{{ partial "breadcrumbnav.html" (dict "p1" .p1.Site.Home "p2" .p2 )  }}
+{{ end }}
+{{ if not (eq .p1 .p2) }}
+<a href="{{ .p1.RelPermalink }}">{{ .p1.Title }}</a>
+  {{ if not (eq .p1 .p2.Parent) }}
+  <span>/</span>
+  {{ end }}
+{{ end }}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- add css files (bundle then postcss) -->
+    {{- $css := resources.Match "css/*.css" | resources.Concat "css/bundle.css" | resources.PostCSS | resources.Minify -}}
+    <link rel="stylesheet" href="{{- $css.RelPermalink -}}" />
+    <!-- fav icon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <!-- title -->
+    <title>
+      {{- block "title" . }} {{- .Site.Title -}} {{ end -}}
+    </title>
+    <!-- load google font -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Source+Serif+Pro&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Source+Serif+Pro&display=swap"
+        rel="stylesheet"
+        type="text/css"
+      />
+    </noscript>
+    <!-- open graph protocol -->
+    {{- template "_internal/opengraph.html" . -}}
+    <!-- twitter template -->
+    {{- template "_internal/twitter_cards.html" . -}}
+  </head>
+  <body>
+    {{- block "header" . -}}
+    <!-- header content -->
+    <header id="title-block-header">
+      <h1>{{- block "h1" . -}}{{- .Title -}}{{- end -}}</h1>
+      {{- with .Params.subtitle -}}
+      <p class="subtitle">{{- . -}}</p>
+      {{- end -}}
+      <!-- add breadcrumbs -->
+      <nav>
+        {{ partial "breadcrumbnav.html" (dict "p1" . "p2" .) }}
+      </nav>
+      <ul>
+        {{- with .Date -}}
+        <li>Created: {{ . | dateFormat "January 2, 2006" -}}</li>
+        {{- end -}}
+        <!--  -->
+        {{- with .Lastmod -}}
+        <li>Last Modified: {{ . | dateFormat "January 2, 2006" -}}</li>
+        {{- end -}}
+        <!-- list tags -->
+        {{ partial "pageTermList.html" (dict "page" .  "taxo" "tags") }}
+        <!-- list categories -->
+        {{ partial "pageTermList.html" (dict "page" .  "taxo" "categories") }}
+        <!--  -->
+      </ul>
+    </header>
+    {{- end -}}
+    <!--  -->
+    {{- block "main" . -}}
+    <!-- main content -->
+    {{- end -}}
+    <!--  -->
+    {{- block "footer" . -}}
+    <!-- footer content -->
+    <footer>&copy; Luke</footer>
+    <!-- add js files (bundle then build) -->
+    {{ $jsBundle := resources.Match "js/*.js" | resources.Concat "js/bundle.js" }}
+    {{- $js := $jsBundle | js.Build "js/main.js" | resources.Minify -}}
+    <script type="text/javascript" src="{{- $js.RelPermalink -}}" defer async></script>
+    {{- end -}}
+  </body>
+</html>

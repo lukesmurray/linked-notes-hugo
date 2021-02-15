@@ -1,0 +1,75 @@
+# source and target
+from: "markdown"
+to: "html"
+
+# Produce output with an appropriate header and footer
+standalone: true
+
+# Do NOT Produce a standalone HTML file with no external dependencies for example images as data urls
+self-contained: false
+
+filters:
+  - transformLinks.lua
+  - gifVideos.lua
+  - citeproc
+  - transformReferenceHeader.lua
+  - addSectionLinks.lua
+
+# css style sheets
+css:
+  - /metadata/styles/reset.min.css
+  - /metadata/styles/site.min.css
+
+# use a custom html template
+template: metadata/templates/default.html
+
+# create a table of contents
+toc: true
+toc-depth: 3
+
+# remove html comments
+strip-comments: true
+
+# wrap sections in section tags
+section-divs: true
+
+# use q tags for quotes in html
+html-q-tags: true
+
+# make the first h1 element the title
+shift-heading-level-by: -1
+
+# all syntax definitions taken from https://github.com/KDE/syntax-highlighting
+syntax-definition:
+  - static/metadata/syntaxes/typescript-react.xml
+
+metadata:
+  # set the author
+  author: Luke Murray
+
+  # pandoc citeproc metadata see https://github.com/jgm/pandoc-citeproc/blob/master/man/pandoc-citeproc.1.md for more
+
+  # the csl json file
+  bibliography: "static/metadata/bibliography/library.json"
+  # create hyperlinks from citations to bib entries
+  link-citations: true
+  # add section header with this title before bibliography
+  reference-section-title: "References"
+  # put footnote citations after following punctuation. For example, if the source contains blah blah [@jones99]., the result will look like blah blah.[^1]
+  notes-after-punctuation: true
+  # the citation style used for more see https://github.com/citation-style-language/styles
+  citation-style: "static/metadata/citation-styles/ieee-with-url.csl"
+
+  # language metadata
+
+  lang: en-US
+  dir: ltr
+
+variables:
+  toc-title: Contents
+  js:
+    - /metadata/scripts/nav.js
+    - /metadata/scripts/sidenote.js
+    - /metadata/scripts/gifVideos.js
+    - /metadata/scripts/popup.js
+    - /metadata/scripts/hypothesis-config.js

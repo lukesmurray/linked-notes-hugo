@@ -1,0 +1,1092 @@
+/* || variables */
+:root {
+  /* main text color */
+  --text-primary-color-darker: #000;
+  --text-primary-color: #333;
+  /* secondary text color */
+  --text-secondary-color: #555;
+  /* disabled text color */
+  --text-disabled-color: #999;
+  /* color for horizontal rules */
+  --horizontal-rule-color: #ccc;
+  /* default color for links */
+  --text-link-color: #005a9c;
+  /* color for disabled links */
+  --text-link-disabled-color: #555;
+  /* background color for code */
+  --code-background-color: #eeeeee;
+  /* primary background color */
+  --primary-background-color: #fefefe;
+
+  /* default color for link icons */
+  --default-link-icon-color: var(--text-secondary-color);
+  /* default color for external link icon indicator */
+  --default-external-link-icon-color: rgb(153, 51, 51);
+  /* the width of the main content */
+  --measure: 40rem;
+  --min-measure: 30rem;
+  --side-measure: 12rem;
+  /* root font size aka rem */
+  --root-font-size: 16px;
+  /* size of fonts in the sidebar */
+  --sidenote-font-size: 0.8125rem;
+  /* the size of the line height relative to the font size */
+  --line-height-multiplier: 1.5;
+  /* default multiplier for modular(ish) type scales */
+  --type-scale: calc(24 / 19);
+  --somewhat-reduced-font-size: 0.9125em;
+  /* font size for reduced text in the main content such as block quotes and fig captions */
+  --reduced-font-size: 0.8625em;
+  /* the deemphasized nav link color, set in javascript. defaults to the regular link color so if no scripts enabled links look nice */
+  --deemphasized-nav-link-color: var(--text-link-color);
+  /* margin for section links */
+  --sectionLinkMarginLeft: -1rem;
+  --emphasized-block-margin: 1.5rem;
+  --grid-column-gap: 1rem;
+  --color-selection: rgba(255, 255, 0, 0.3);
+  --color-link-active: #faa700;
+  --horizontal-body-padding: 2rem;
+}
+
+html {
+  /* make the html element use box sizing */
+  box-sizing: border-box;
+  /* root font size */
+  font-size: var(--root-font-size);
+  /* smooth scrolling */
+  scroll-behavior: smooth;
+  /* default font */
+  font-family: "Source Serif Pro", Georgia, "Times New Roman", Times, serif;
+  /* display fallback font instead of waiting for google fonts to load */
+  font-display: fallback;
+  /* hyphenate newlines */
+  hyphens: auto;
+  /* 16 * 1.3125 = 21px so 21px is the base lineheight */
+  line-height: var(--line-height-multiplier);
+}
+
+*,
+*:before,
+*:after {
+  /* make all elements use box sizing */
+  box-sizing: inherit;
+  /* make all elements respect the measure */
+  max-width: min(var(--measure), 100%);
+  /* make sure underlines and overlines do not intersect glyphs */
+  text-decoration-skip-ink: all;
+}
+
+/* disable the max width measure on these elements */
+html,
+body,
+div,
+header,
+nav,
+main,
+figure,
+hr,
+blockquote,
+footer {
+  max-width: none;
+}
+
+/* h1 size */
+h1 {
+  font-size: calc(
+    1rem * var(--type-scale) * var(--type-scale) * var(--type-scale) *
+      var(--type-scale)
+  );
+}
+
+/* h2 size */
+h2 {
+  font-size: calc(1rem * var(--type-scale) * var(--type-scale));
+}
+
+/* h3 size */
+h3 {
+  font-size: calc(1rem * var(--type-scale));
+}
+
+/* muted text in the header */
+body > header {
+  display: grid;
+  grid-template-areas: "nav nav" "title title" "subtitle subtitle" "meta meta";
+  grid-template-columns: 1fr max-content;
+  grid-template-rows: repeat(5, auto);
+
+  & .subtitle {
+    color: var(--text-secondary-color);
+    font-size: calc(1rem * var(--type-scale));
+    grid-area: subtitle;
+  }
+
+  & > h1 {
+    grid-area: title;
+  }
+
+  & > ul {
+    grid-area: meta;
+    font-size: var(--reduced-font-size);
+    display: flex;
+    flex-wrap: wrap;
+    --column-gap: 1rem;
+    --row-gap: 0.5rem;
+    margin: calc(-1 * var(--row-gap)) 0 0 calc(-1 * var(--column-gap));
+    overflow-x: auto;
+    color: var(--text-secondary-color);
+    text-transform: capitalize;
+
+    & > * {
+      margin: var(--row-gap) 0 0 var(--column-gap);
+    }
+
+    padding-left: 0;
+
+    & li {
+      list-style-type: none;
+      white-space: nowrap;
+    }
+  }
+
+  & > nav {
+    grid-area: nav;
+    display: flex;
+    flex-wrap: wrap;
+    --column-gap: 0.5rem;
+    --row-gap: 0.5rem;
+    margin: calc(-1 * var(--row-gap)) 0 0 calc(-1 * var(--column-gap));
+    max-width: calc(100% + var(--column-gap));
+    justify-content: flex-end;
+
+    & > * {
+      margin: var(--row-gap) 0 0 var(--column-gap);
+    }
+
+    & a {
+      text-align: right;
+      text-transform: capitalize;
+      word-wrap: normal;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
+}
+
+/* holy grail layout */
+body {
+  display: grid;
+  justify-content: center;
+  background-color: var(--primary-background-color);
+  overflow-x: hidden;
+
+  grid-template-areas:
+    ". header header"
+    "nav content side"
+    "footer footer footer";
+
+  grid-template-columns:
+    minmax(var(--side-measure), var(--side-measure))
+    minmax(var(--min-measure), var(--measure))
+    minmax(var(--side-measure), var(--side-measure));
+  grid-template-rows: auto 1fr auto;
+  grid-column-gap: calc(
+    var(--grid-column-gap) + var(--emphasized-block-margin)
+  );
+
+  min-height: calc(100vh);
+  min-width: calc(100vw - 2rem);
+  padding: 2em var(--horizontal-body-padding) 1em;
+
+  & > header {
+    grid-area: header;
+  }
+
+  & > nav {
+    grid-area: nav;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  & > main {
+    z-index: 1;
+    grid-area: content;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  & > aside {
+    grid-area: side;
+
+    & menu {
+      margin-top: 1.5rem;
+      position: sticky;
+      top: 1rem;
+      float: right;
+      z-index: 1;
+    }
+  }
+
+  & > footer {
+    grid-area: footer;
+  }
+}
+
+/* responsive holy grail layout
+
+In the first break the left TOC is flattened at the top of the page
+
+calculation
+2 rem body padding
+12 rem side measure
+1 rem grid column gap
+1.5 rem --emphasized-block-margin
+44 rem measure
+1.5 rem --emphasized-block-margin
+1 rem grid column gap
+12 rem side measure
+2 rem body padding
+---------
+77 rem
+77 * 16px = 1232px
+
+alternatively
+use min measure
+77 - 44 + 30 = 63rem
+63 * 16px = 1008px
+*/
+@media (max-width: 1008px) {
+  body {
+    grid-template-areas:
+      ". header header"
+      ". nav side"
+      ". content side"
+      "footer footer footer";
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(var(--min-measure), var(--measure))
+      minmax(var(--side-measure), var(--side-measure));
+    grid-template-rows:
+      auto /* Header */
+      auto /* Nav */
+      1fr /* Content sidebar */
+      auto; /* Footer */
+
+    /* shift content to the left cause of 0 width column */
+    & > header,
+    & > nav,
+    & > main,
+    & > footer {
+      margin-left: calc(
+        -1 * (var(--grid-column-gap) + var(--emphasized-block-margin))
+      );
+    }
+  }
+
+  :root {
+    --emphasized-block-margin: 1rem;
+  }
+}
+
+/* responsive holy grail layout
+
+In the second break the right sidenotes are hidden
+
+calculation
+2 rem body padding
+44 rem measure
+1 rem grid column gap
+1 rem --emphasized-block-margin
+12 rem side measure
+2 rem body padding
+---------
+62 rem
+62 * 16px = 992px
+
+alternatively
+use min measure
+62 - 44 + 30 = 48
+48 * 16px = 768px
+*/
+@media (max-width: 768px) {
+  body {
+    grid-template-areas:
+      "header"
+      "nav"
+      "content"
+      "footer";
+
+    grid-template-columns: minmax(0, 100%);
+    grid-template-rows:
+      auto /* Header */
+      auto /* Nav */
+      1fr /* Content */
+      auto; /* Footer */
+
+    & > header,
+    & > nav,
+    & > aside,
+    & > main,
+    & > footer {
+      margin-left: 0rem;
+    }
+
+    & > aside {
+      display: none;
+    }
+
+    & video,
+    & img {
+      margin-left: -1px;
+      margin-right: -1px;
+      max-width: calc(100% + 2px);
+      border-radius: 0;
+    }
+
+    & main {
+      & div.sourceCode,
+      & pre {
+        &:hover {
+          width: calc(100% + 2 * var(--emphasized-block-margin));
+        }
+      }
+    }
+  }
+}
+
+/* nav styles */
+[role="doc-toc"] > ul {
+  position: sticky;
+  top: 1rem;
+
+  & li.active {
+    & > a {
+      &::after {
+        display: inline;
+        position: static;
+        content: "⬅";
+      }
+    }
+  }
+}
+
+aside {
+  font-size: var(--sidenote-font-size);
+
+  & div.sourceCode,
+  & pre {
+    &:hover {
+      width: calc(100% + 2 * var(--emphasized-block-margin));
+    }
+    & pre:hover {
+      width: 100%;
+    }
+  }
+}
+
+/* center the footer */
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary-color);
+}
+
+/* article styles */
+article {
+  /* apply spacing between paragraphs */
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  /* use padding to separate sections so scroll to section has nice breathing room */
+  & > * + section {
+    padding-top: 2rem;
+    /*  */
+    margin-top: 0rem;
+  }
+
+  /* section styles */
+  & section {
+    /* spacing between the paragraphs in a section */
+    & > * + * {
+      margin-top: 1rem;
+    }
+
+    /* padding between nested sections */
+    & * + section {
+      padding-top: 1.5rem;
+      margin-top: 0rem;
+    }
+  }
+}
+
+/* in text headers */
+h2,
+h3 {
+  font-weight: 550;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.3;
+}
+
+/* default list styles */
+li {
+  list-style: disc;
+  & li {
+    list-style: circle;
+    & li {
+      list-style: square;
+    }
+  }
+}
+
+ol > li {
+  list-style: decimal;
+}
+
+ul > li {
+  list-style: disc;
+}
+
+/* place list markers outside to support a consistent left measure*/
+ul,
+ol {
+  list-style-position: outside;
+  padding-left: 1.1em;
+}
+
+li {
+  margin-bottom: 0.25em;
+  margin-top: 0.25em;
+}
+
+ul.task-list {
+  & input[type="checkbox"] {
+    margin-left: -1.3em;
+  }
+
+  & > li {
+    list-style: none;
+  }
+}
+
+*::selection {
+  background: var(--color-selection);
+  color: var(--text-primary-color-darker);
+}
+
+/* link styles */
+a {
+  /* break long links */
+  word-wrap: break-word;
+  /* no underline */
+  text-decoration: none;
+  /* color */
+  color: var(--text-link-color);
+
+  /* underline on hover */
+  &:hover {
+    text-decoration: underline;
+  }
+
+  /* link icon generic styling */
+  &::after {
+    position: relative;
+    content: "";
+    margin-left: 0.1em;
+    font-size: 0.8em;
+    top: -0.2em;
+    font-feature-settings: "caps";
+    font-variant-numeric: normal;
+    color: var(--default-link-icon-color);
+    display: inline-block;
+  }
+
+  &:active {
+    color: var(--color-link-active);
+  }
+
+  &::selection {
+    background: var(--color-selection);
+    color: var(--text-link-color);
+  }
+
+  /* external link styling */
+  &.external-link {
+    /* use wikipedia icon for wikipedia links */
+    &[href*="wikipedia.org"]::after {
+      content: "";
+      /* width and height because background is an image */
+      width: 0.8em;
+      height: 0.8em;
+      /* background fills the width and height */
+      background-image: url(/assets/wikipedia.svg);
+      background-size: 100%;
+      background-repeat: no-repeat;
+      color: var(--default-link-icon-color);
+    }
+
+    /* use circle for external links */
+    &::after {
+      content: "°";
+      color: var(--default-external-link-icon-color);
+    }
+  }
+
+  /* internal link styling */
+  &.internal-link {
+    /* use a fraktur symbol https://en.wikipedia.org/wiki/Fraktur inspired by gwern  */
+    &::after {
+      content: "𝑳";
+    }
+  }
+
+  /* section link styling */
+  &.sectionLink {
+    float: left;
+    margin-left: var(--sectionLinkMarginLeft);
+    padding-right: calc(var(--sectionLinkMarginLeft));
+
+    &::before {
+      /* place the section sign before header links */
+      content: "§";
+      visibility: hidden;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &:focus {
+      visibility: visible;
+      &::before {
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  &:hover {
+    & .sectionLink::before {
+      visibility: visible;
+    }
+  }
+}
+
+q,
+blockquote {
+  quotes: "“" "”" "‘" "’";
+}
+
+q {
+  &::before {
+    content: open-quote;
+  }
+  &::after {
+    content: close-quote;
+  }
+}
+blockquote {
+  & > :first-child {
+    &::before {
+      content: open-quote;
+      margin-left: -0.4em;
+    }
+  }
+
+  & > :last-child::after {
+    content: close-quote;
+  }
+}
+
+blockquote {
+  padding: 0.5em;
+  border-left: 3px solid var(--horizontal-rule-color);
+  background-color: var(--code-background-color);
+  border-radius: 0.25em;
+  /* apply spacing between elements */
+  & > * + * {
+    margin-top: 1rem;
+  }
+}
+
+article {
+  & blockquote {
+    padding: 1em var(--emphasized-block-margin);
+    margin-left: calc(-1 * var(--emphasized-block-margin));
+    margin-right: calc(-1 * var(--emphasized-block-margin));
+  }
+}
+
+sub,
+sup {
+  /* Specified in % so that the sup/sup is the
+       right size relative to the surrounding text */
+  font-size: 75%;
+
+  /* Zero out the line-height so that it doesn't
+       interfere with the positioning that follows */
+  line-height: 0;
+
+  /* Where the magic happens: makes all browsers position
+       the sup/sup properly, relative to the surrounding text */
+  position: relative;
+}
+
+sup {
+  /* Move the superscripted text up */
+  top: -0.5em;
+}
+
+sub {
+  /* Move the subscripted text down, but only
+       half as far down as the superscript moved up */
+  bottom: -0.25em;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  font-size: var(--somewhat-reduced-font-size);
+}
+
+table th,
+table td {
+  border-top: 1px solid var(--horizontal-rule-color);
+  padding: 0.25em 0.5em;
+}
+
+table th {
+  border-top: none;
+  border-bottom: 1px solid var(--text-secondary-color);
+}
+
+table tr {
+  & td,
+  & th {
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+table td {
+  vertical-align: top;
+}
+
+dl {
+  display: grid;
+  grid-template: auto / fit-content(10rem) 1fr;
+}
+
+dt,
+dd {
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+}
+
+dt {
+  grid-column: 1;
+  font-style: italic;
+  padding-left: 0rem;
+}
+
+dd {
+  grid-column: 2;
+  padding-right: 0rem;
+}
+
+dd + dt,
+dd + dt + dd,
+dd + dd {
+  border-top: 1px solid var(--horizontal-rule-color);
+}
+
+/* pandoc citeproc citations */
+.citation {
+  /* do not break citations over lines */
+  white-space: nowrap;
+}
+
+/* set a border on videos and images */
+video,
+img {
+  border-style: solid;
+  border-color: var(--horizontal-rule-color);
+  border-width: 1px;
+  border-radius: 0.25rem;
+}
+
+/* set the horizontal rule to have a 1px width */
+hr {
+  margin-left: calc(-1 * var(--emphasized-block-margin));
+  margin-right: calc(-1 * var(--emphasized-block-margin));
+  border: none;
+  border-top: 1px solid var(--horizontal-rule-color);
+}
+
+/* give figures some extra breathing room */
+figure {
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.sidenote {
+  position: absolute;
+}
+
+.sidenoteList {
+  /* make the sidenote list a positioned element is the absolute sidenotes
+  show up correctly */
+  position: relative;
+  /* leave a margin between sidenotes */
+  & > * + * {
+    margin-top: 1rem;
+  }
+}
+
+/* emphasized blocks */
+figure {
+  text-align: center;
+
+  & > video,
+  & > img,
+  & > figcaption {
+    max-width: 100%;
+  }
+
+  & figcaption {
+    color: var(--text-secondary-color);
+    font-size: var(--reduced-font-size);
+    padding-left: var(--emphasized-block-margin);
+    padding-right: var(--emphasized-block-margin);
+    text-align: left;
+  }
+  margin-left: calc(-1 * var(--emphasized-block-margin));
+  margin-right: calc(-1 * var(--emphasized-block-margin));
+}
+
+/* code block specific styling */
+div.sourceCode,
+pre {
+  line-height: 1;
+  padding: 1rem var(--emphasized-block-margin);
+  border-radius: 0.25rem;
+  margin-left: calc(-1 * var(--emphasized-block-margin));
+  margin-right: calc(-1 * var(--emphasized-block-margin));
+  overflow-x: scroll;
+  transition-property: width;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0ms;
+  width: calc(100% + 2 * var(--emphasized-block-margin));
+  max-width: max-content;
+  min-width: calc(100% + 2 * var(--emphasized-block-margin));
+
+  & pre {
+    margin: 0;
+    padding: 0;
+    overflow-x: visible;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  & code {
+    padding: 0;
+  }
+
+  &:hover {
+    width: calc(
+      100% + var(--side-measure) + 2 * var(--emphasized-block-margin) +
+        var(--grid-column-gap)
+    );
+  }
+}
+
+/* set the background color throughout code blocks */
+.sourceCode,
+pre {
+  background-color: var(--code-background-color);
+  & span[id^="cb"] > a {
+    display: none;
+  }
+}
+
+code {
+  background-color: var(--code-background-color);
+  font-family: "Source Code Pro", monospace;
+  padding: 0 0.25rem;
+  border-radius: 0.25rem;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
+/* tippy styling */
+.tippy-content {
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  & > iframe {
+    height: min((100vh - 2rem), 400px);
+  }
+
+  & > * {
+    width: min(calc(100vw - 2rem), calc(var(--measure)));
+    max-height: min((100vh - 2rem), 400px);
+  }
+}
+
+.tippy-box {
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.tippy-box > .tippy-arrow::before {
+  transform: scale(1.5);
+}
+
+/* popup styling */
+body.popup {
+  background-color: var(--primary-background-color);
+  padding: 1rem;
+
+  grid-template-areas: "header" "nav" "content";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+
+  & > header {
+    & h1 {
+      font-size: calc(1rem * var(--type-scale));
+    }
+    & > nav,
+    & > ul {
+      display: none;
+    }
+  }
+
+  & > main {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  & > aside,
+  & > footer {
+    display: none;
+  }
+
+  & blockquote,
+  & div.sourceCode,
+  & img,
+  & video {
+    border-radius: 0;
+  }
+
+  & figure {
+    max-width: calc(100% + 2px + 2 * var(--emphasized-block-margin));
+    margin-left: calc(-1 * (var(--emphasized-block-margin) + 1px));
+    margin-right: calc(-1 * (var(--emphasized-block-margin) + 1px));
+  }
+}
+
+/* add padding to an internal reference popup */
+.refNodeWrapper {
+  padding: 1rem 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* padding in footnotes */
+.footnotes > ol {
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  & li {
+    & > * + * {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+aside > ol > li {
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+#refs {
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+
+  & p {
+    padding-left: 2em;
+    text-indent: -2em;
+  }
+}
+
+/* responsive holy grail layout
+
+In the last break the padding is reduced
+
+calculation
+2 rem body padding
+44 rem measure
+2 rem body padding
+---------
+48 rem
+48 * 16px = 768px
+
+alternatively
+use min measure
+48 - 44 + 30 = 34 
+34 * 16px = 544px
+
+instead just go with small screen size
+*/
+@media (max-width: 544px) {
+  :root {
+    --horizontal-body-padding: 1rem;
+  }
+  blockquote,
+  div.sourceCode,
+  img,
+  video {
+    border-radius: 0;
+  }
+
+  figure {
+    max-width: calc(100% + 2px + 2 * var(--emphasized-block-margin));
+    margin-left: calc(-1 * (var(--emphasized-block-margin) + 1px));
+    margin-right: calc(-1 * (var(--emphasized-block-margin) + 1px));
+  }
+}
+
+/* print styling */
+@media print {
+  :root {
+    --measure: 100%;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+  }
+
+  p,
+  figure {
+    page-break-inside: avoid;
+  }
+
+  /* this is just copied from the smallest page break */
+  body {
+    grid-template-areas:
+      "header"
+      "nav"
+      "content"
+      "footer";
+
+    grid-template-columns: minmax(0, 100%);
+    grid-template-rows:
+      auto /* Header */
+      auto /* Nav */
+      1fr /* Content */
+      auto; /* Footer */
+
+    /* remove extra padding for emphasized blocks on small screens */
+    padding: 1rem;
+
+    & > header,
+    & > aside,
+    & > main,
+    & > footer {
+      margin-left: 0rem;
+    }
+
+    & > aside,
+    & > footer,
+    & > header > nav {
+      display: none;
+    }
+
+    & > main {
+      & figure,
+      & hr,
+      & pre,
+      & div.sourceCode {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      & video,
+      & img {
+        margin-left: -1px;
+        margin-right: -1px;
+        max-width: calc(100% + 2px);
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+button {
+  display: inline-block;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  text-decoration: none;
+  background-color: var(--primary-background-color);
+  color: var(--text-secondary-color);
+  cursor: pointer;
+  text-align: center;
+  transition: background 250ms ease-in-out, transform 150ms ease,
+    color 250ms ease-in-out;
+  border: 1px solid var(--horizontal-rule-color);
+  border-radius: 0.25rem;
+
+  &:hover,
+  &:focus {
+    background: var(--code-background-color);
+    color: var(--text-primary-color);
+  }
+
+  &:focus {
+    border-color: var(--text-secondary-color);
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:disabled {
+    background-color: var(--primary-background-color);
+    color: var(--text-secondary-color);
+  }
+}

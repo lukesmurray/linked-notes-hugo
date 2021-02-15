@@ -1,0 +1,24 @@
+
+{{ define "title" }} 
+  {{ $title := printf "%s (%s)" .Title .Data.Singular }}
+  {{- $title -}}
+{{ end }}
+
+{{ define "h1" }}
+  {{ $title := printf "%s (%s)" .Title .Data.Singular }}
+  {{- $title -}}
+{{ end }}
+
+{{ define "main" }}
+<main>
+  <article>
+    <!-- orders content according to the "date" field in front matter -->
+    {{ range .Pages.ByDate }}
+    <section>
+      <h2><a class="internal-link" href="{{ .Permalink }}">{{ .Title }}</a></h2>
+    </section>
+    {{ end }}
+  </article>
+</main>
+
+{{ end }}

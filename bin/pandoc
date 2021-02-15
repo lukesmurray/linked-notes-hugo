@@ -1,0 +1,5 @@
+#!/bin/bash
+$PANDOC_ORIGINAL \
+    --data-dir="static/metadata" \
+    --defaults="html" \
+    "$@"

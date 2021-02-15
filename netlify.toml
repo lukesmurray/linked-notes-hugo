@@ -1,0 +1,52 @@
+[build]
+  publish = "public"
+  command = "HUGO_BASEURL=$DEPLOY_PRIME_URL ./deployNetlify.sh"
+
+[build.environment]
+  HUGO_VERSION = "0.74.3"
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = false
+  minify = false
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+[context.production]
+    publish = "public"
+    command = "HUGO_BASEURL=$URL ./deployNetlify.sh"
+  
+[context.production.environment]
+  HUGO_VERSION = "0.74.3"
+
+[dev]
+    command = "./hugo serve -D"
+    targetPort = 1313
+    port = 8888
+    framework = "#custom"
+    autoLaunch = true
+
+[[headers]]
+    for = "/*.sh"
+    [headers.values]
+        content-type = "text/plain"
+
+[[headers]]
+    for = "/*.csl"
+    [headers.values]
+        content-type = "text/plain"
+
+[[headers]]
+    for = "/*"
+    [headers.values]
+        X-Robots-Tag = "noindex"

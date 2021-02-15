@@ -1,0 +1,25 @@
+{
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": false,
+    "editor.formatOnSave": false
+  },
+  "markdownlint.config": {
+    "default": true,
+    // ignore line length
+    "MD013": false,
+    // allow for indented unordered lists. Useful for providing lists in footnotes.
+    "MD007": false
+  },
+  "linked-notes-vscode.defaultBib": "/static/metadata/bibliography/library.json",
+  "pasteImage.path": "${projectRoot}/static/assets",
+  "pasteImage.basePath": "${projectRoot}/static",
+  "pasteImage.forceUnixStyleSeparator": true,
+  "pasteImage.prefix": "/",
+  "explorer.sortOrder": "modified",
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.revealIfOpen": true,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "files.autoSave": "onWindowChange",
+  "files.autoSaveDelay": 1000
+}

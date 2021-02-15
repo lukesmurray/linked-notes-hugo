@@ -1,0 +1,13 @@
+baseURL = "http://localhost:1313/"
+theme = "linked-notes"
+relativeURLs = "true" # enable urls relative to the content root makes paths match file paths
+enableGitInfo = "true" # enable the gitinfo object
+
+[params]
+  description = "Collection of notes, essays, ideas. Basically my writing practice."
+  images = ["mike-bostock-cliffor-attractor.png"]
+  title = "Luke's Notes"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"

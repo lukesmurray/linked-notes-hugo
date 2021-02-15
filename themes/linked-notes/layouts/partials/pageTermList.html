@@ -1,0 +1,27 @@
+{{/* {{ partial "pageTermList.html" (dict "page" .  "taxo" "categories") }} */}}
+{{/* usage: call with a dict containing the page and the plural form of the taxonomy */}}
+
+{{ $page := .page }}
+{{ $taxo := .taxo }}
+
+{{/* get the taxonomy from the page (it is an array) */}}
+{{ with $page.Param $taxo }}
+
+    <li>
+        {{/* create the link to the taxonomy page */}}
+        {{- with $page.GetPage (printf "/%s" $taxo ) -}}
+        <a href="{{- .RelPermalink }}">
+        {{- $taxo -}}
+        </a>: {{ end }}
+            
+        {{/* iterate over the taxonomy array */}}
+        {{- range $index, $term := . -}}
+            {{/* add commas before terms except for the first */}}
+            {{- if gt $index 0 -}}, {{- end -}}
+            {{- with $page.GetPage (printf "/%s/%s" $taxo $term) -}}
+                <a href="{{- .RelPermalink -}}">{{- $term -}}</a>
+            {{- end -}}
+        {{- end -}}
+    </li>
+    
+{{ end }}

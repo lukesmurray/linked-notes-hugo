@@ -22,18 +22,18 @@ Although it was a short lived experiment here are some features I ended up imple
 
 Any internal link can be hovered on to see a popup.
 For example table of contents links can be hovered to see a specific section
-and footnotes or sidenotes can be hovered to see that footnote or sidenote.
+and footnotes or sidenotes can be hovered to see that footnote or sidenote inline.
 
-I ended up abandoning the idea because getting hugo, pandoc, custom markdown
+I ended up abandoning the experiment because getting hugo, pandoc, custom markdown
 syntax, and moderately complex javascript features to work together leads to
 an inherently fragile and opinionated design.
-I do think the generated site is beautiful, for example the [about page](https://linked-notes-hugo.lsmurray.com/posts/about/) and [inspirations page](https://linked-notes-hugo.lsmurray.com/posts/inspirations/) are both quite fun to play around on.
+I do think the generated site is beautiful, for example the [about
+page](https://linked-notes-hugo.lsmurray.com/posts/about/) and [inspirations
+page](https://linked-notes-hugo.lsmurray.com/posts/inspirations/) are both
+quite fun to play around on.
 
-
-
-
-
-
+If anything the [css file](./themes/linked-notes/assets/css/1-main.css) may
+be worth stealing.
 
 ## Changes from Custom Build
 

@@ -3,7 +3,7 @@
 set -ex
 
 # set the pandoc version
-PANDOC_VERSION="2.10.1"
+PANDOC_VERSION="2.11.4"
 
 INSTALLED_PANDOC_VERSION=$(pandoc -v | head -1 | cut -f 2 -d " ")
 

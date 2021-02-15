@@ -1,6 +1,37 @@
 # README
 
-This is a proof of concept for developing my personal wiki using [linked-notes-vscode](https://github.com/lukesmurray/linked-notes-vscode), pandoc, and hugo.
+[Live Demo](https://linked-notes-hugo.lsmurray.com/)
+
+This is a proof of concept for developing a personal notebook using
+[linked-notes-vscode](https://github.com/lukesmurray/linked-notes-vscode),
+pandoc, and hugo. The goal was to make a beautiful site for sharing richly
+linked notes which have been authored in markdown.
+Although it was a short lived experiment here are some features I ended up implementing.
+
+- sidenotes
+
+![sidenotes](./static/assets/sidenotes.gif)
+
+- bibliography
+
+![bibliography](./static/assets/bibliography.gif)
+
+- table of contents
+
+![table of contents](./static/assets/table-of-contents.gif)
+
+Any internal link can be hovered on to see a popup.
+For example table of contents links can be hovered to see a specific section
+and footnotes or sidenotes can be hovered to see that footnote or sidenote.
+
+I ended up abandoning the idea because getting hugo, pandoc, custom markdown
+syntax, and moderately complex javascript features to work together leads to
+an inherently fragile and opinionated design.
+I do think the generated site is beautiful, for example the [about page](https://linked-notes-hugo.lsmurray.com/posts/about/) and [inspirations page](https://linked-notes-hugo.lsmurray.com/posts/inspirations/) are both quite fun to play around on.
+
+
+
+
 
 
 
